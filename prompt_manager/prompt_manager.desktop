@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Prompt Manager
+Comment=Manage and organize your AI prompts
+Exec=/home/aatman/Documents/e-com-application/prompt_manager/run_prompt_manager.sh
+Icon=/home/aatman/Documents/e-com-application/prompt_manager/ui/icon.png
+Terminal=false
+Type=Application
+Categories=Utility;Productivity;
+StartupNotify=true

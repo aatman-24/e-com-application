@@ -1,0 +1,107 @@
+/* ---------- General ---------- */
+QWidget {
+    background-color: #1f2024;
+    color: #f0f0f0;
+    font-family: 'Segoe UI Semibold', 'Ubuntu', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* ---------- Window ---------- */
+QMainWindow {
+    background-color: #25262a;
+}
+
+/* ---------- Labels ---------- */
+QLabel {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+}
+
+/* ---------- Buttons ---------- */
+QPushButton {
+    background-color: #2e2f33;
+    color: #ffffff;
+    border: 1px solid #3a3b3f;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+QPushButton:hover {
+    background-color: #3a3b3f;
+}
+QPushButton:pressed {
+    background-color: #4b4c50;
+}
+QPushButton:disabled {
+    color: #888;
+    background-color: #2a2a2e;
+}
+
+/* ---------- Text Inputs ---------- */
+QLineEdit, QTextEdit {
+    background-color: #2a2b2f;
+    color: #f0f0f0;
+    border: 1px solid #3a3b3f;
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: none;
+}
+QLineEdit:focus, QTextEdit:focus {
+    border: 1px solid #4e8ef7;
+    background-color: #303136;
+}
+
+/* ---------- Lists ---------- */
+QListWidget {
+    background-color: #26272b;
+    color: #f0f0f0;
+    border: 1px solid #3a3b3f;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: none;
+}
+QListWidget::item {
+    padding: 5px 6px;
+}
+QListWidget::item:selected {
+    background-color: #4e8ef7;
+    color: white;
+    font-weight: bold;
+}
+QListWidget::item:hover {
+    background-color: #3a3b3f;
+}
+
+/* ---------- Scrollbars ---------- */
+QScrollBar:vertical {
+    background-color: #2b2c30;
+    width: 10px;
+}
+QScrollBar::handle:vertical {
+    background-color: #3a3b3f;
+    min-height: 20px;
+    border-radius: 4px;
+}
+QScrollBar::handle:vertical:hover {
+    background-color: #5a5a5f;
+}
+
+/* ---------- Text Area ---------- */
+QTextEdit {
+    line-height: 1.4;
+}
+
+/* ---------- Headers / Dividers ---------- */
+QFrame {
+    background-color: #2a2b2f;
+}
