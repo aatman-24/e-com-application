@@ -14,10 +14,11 @@ from PyQt5.QtGui import QFont, QColor, QPalette, QIcon
 from PyQt5.QtCore import Qt, pyqtSignal, QObject
 
 # Import existing label processor logic (unchanged)
-from label_processor import (
+from label_processor_3 import (
     merge_input_pdfs,
     sort_pdf_by_parent_sku,
     crop_and_fit_labels,
+    append_summary_page
 )
 
 
@@ -61,18 +62,25 @@ class Worker(QObject):
             self.log.emit("✂️ Step 3: Cropping and fitting labels...")
             crop_and_fit_labels(temp_input, final_pdf)
 
-            # Clean up temporary files
-            for temp_file in [merged_pdf, sorted_pdf]:
-                if os.path.exists(temp_file) and temp_file != final_pdf:
-                    try:
-                        os.remove(temp_file)
-                    except Exception:
-                        pass
 
-            self.log.emit(f"✅ Done! Final label generated: {final_pdf}")
+            # NEW: Step 4 — create summary
+            self.log.emit("Step 4 — generating summary page...")
+            append_summary_page(final_pdf)
+
+            final_result = final_pdf  # if summary fails, fall back
+
+            # remove temp files if present
+            for tmp in (merged_pdf, sorted_pdf):
+                try:
+                    if os.path.exists(tmp) and tmp != final_result:
+                        os.remove(tmp)
+                except Exception:
+                    pass
+
+            self.log.emit(f"Final Output: {final_pdf}")
             self.finished.emit(final_pdf)
-
         except Exception as e:
+            print(e)
             self.error.emit(str(e))
 
 

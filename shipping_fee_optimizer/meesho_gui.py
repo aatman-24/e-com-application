@@ -133,6 +133,7 @@ def call_fetch_duplicate_pid(session: requests.Session, image_url: str, headers_
     headers = {**headers_base, "content-type": "application/json;charset=UTF-8"}
     payload = dict(base_payload)
     payload["image_url"] = image_url
+    print("payload: ", payload)
     try:
         r = session.post(FETCH_DUP_PID_URL, headers=headers, json=payload, timeout=30)
     except Exception as e:
@@ -537,12 +538,14 @@ class MainWindow(QtWidgets.QMainWindow):
             "cookie_string": cookie,
             "cdn_tries": 8,
             "cdn_delay": 1.0,
-            "fetch_dup_retries": 5,
-            "fetch_dup_delay": 1.0,
+            # "fetch_dup_retries": 5,
+            # "fetch_dup_delay": 1.0,
+                        "fetch_dup_retries": 2,
+            "fetch_dup_delay": 1.5,
             "fee_retries": 6,
             "fee_delay": 1.0,
-            "fetch_dup_base": {"is_old_image_match_enabled": True, "sscat_id": 10285},
-            "fee_base": {"sscat_id": 10285, "gst_percentage": 5, "price": 200, "supplier_id": 2989863, "gst_type": "GSTIN"},
+            "fetch_dup_base": {"is_old_image_match_enabled": False, "sscat_id": 10285},
+            "fee_base": {"sscat_id": 10285, "gst_percentage": 5, "price": 100, "supplier_id": 2989863, "gst_type": "GSTIN"},
         }
 
         # UI state
