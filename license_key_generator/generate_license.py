@@ -1,22 +1,31 @@
 #!/usr/bin/env python3
+import hmac
 import hashlib
 
-SECRET_KEY = "aatman.code@gmail.com"  # SAME as in app
+# ⚠️ MUST MATCH the SECRET_KEY in your app
+SECRET_KEY = "CHANGE_ME_TO_SOME_RANDOM_LONG_STRING"
 
 
-def calc_license_key(name: str, email: str) -> str:
-    text = f"{name.strip()}|{email.strip()}|{SECRET_KEY}"
-    digest = hashlib.sha256(text.encode("utf-8")).hexdigest().upper()
+def calc_expected_license(email: str, machine_id: str) -> str:
+    email_norm = email.strip().lower()
+    machine_norm = machine_id.strip().upper()
+    raw = f"{email_norm}|{machine_norm}"
+
+    digest = hmac.new(
+        SECRET_KEY.encode("utf-8"),
+        raw.encode("utf-8"),
+        hashlib.sha256,
+    ).hexdigest().upper()
+
     short = digest[:24]
-    blocks = [short[i : i + 4] for i in range(0, len(short), 4)]
-    return "-".join(blocks)
+    return "-".join(short[i:i+4] for i in range(0, len(short), 4))
 
 
 if __name__ == "__main__":
-    name = input("Customer name: ").strip()
     email = input("Customer email: ").strip()
-    key = calc_license_key(name, email)
+    machine_id = input("Machine Code (from app): ").strip()
+    key = calc_expected_license(email, machine_id)
     print("\nGive this to customer:")
-    print(f"Name  : {name}")
-    print(f"Email : {email}")
-    print(f"Key   : {key}")
+    print(f"Email        : {email}")
+    print(f"Machine Code : {machine_id}")
+    print(f"License Key  : {key}")
