@@ -1,0 +1,113 @@
+{
+  "Ideal For": ["Boys", "Girls"],
+
+  "Primary Product Type": [
+    "T-shirt",
+    "Sweatshirt"
+  ],
+
+  "Secondary Product Type": [
+    "Pant",
+    "Sweatpant",
+    "Shorts",
+    "Legging"
+  ],
+
+  "Sleeve Length": [
+    "Full Sleeve",
+    "Half Sleeve"
+  ],
+
+  "Pattern/Print Type": [
+    "Graphic Print",
+    "Solid"
+  ],
+
+  "Occasion": [
+    "Casual",
+    "Party(Festive)"
+  ],
+
+  "Fabric": [
+    "Cotton",
+    "Cotton Blend"
+  ],
+
+    "Character": [
+    "Angry Birds",
+    "Avengers",
+    "Barbie",
+    "Batman",
+    "Ben 10",
+    "Captain America",
+    "Chhota Bheem",
+    "Daisy",
+    "Dinosaur",
+    "Disney Princess",
+    "Donald",
+    "Dora",
+    "Doraemon",
+    "Frozen",
+    "Garfield",
+    "Goofy",
+    "Hello Kitty",
+    "Hulk",
+    "Iron Man",
+    "Jungle Book",
+    "Kung Fu Panda",
+    "Looney Toons",
+    "Mickey",
+    "Minnie",
+    "Minnions",
+    "Motu Patlu",
+    "NA",
+    "Ninja Hattori",
+    "No Character",
+    "Peppa Pig",
+    "Pluto",
+    "Pokemon",
+    "Spiderman",
+    "Sponge Bob",
+    "Steffi Love",
+    "Superman",
+    "Tom & Jerry",
+    "Transformers",
+    "Tweety",
+    "WWE",
+    "Winnie the Pooh"
+  ],
+
+  "Primary Color": [
+    "Black",
+    "Blue",
+    "Brown",
+    "Dark Blue",
+    "Dark Green",
+    "Light Blue",
+    "Maroon",
+    "Multicolor",
+    "Orange",
+    "Pink",
+    "Purple",
+    "Red",
+    "White",
+    "Yellow"
+  ],
+
+  "Secondary Color": [
+    "Black",
+    "Brown",
+    "Dark Green",
+    "Light Blue",
+    "Pink",
+    "Purple"
+],
+
+  "Detail Placement": [
+    "Front Panel",
+    "Neckline",
+    "Yoke"
+  ]
+
+
+}

@@ -148,6 +148,27 @@
                 "description": "Change only the background shade of the catalog image to a softer, studio-style tone. Keep the lighting gentle and diffused, maintaining a clean professional studio vibe. Do not alter the outfit, its colors, shadows, texture, or proportions. Only adjust the background shade to enhance the overall look of the outfit while keeping the scene realistic and softly lit.",
                 "created_at": "2025-11-20T12:45:31.853833",
                 "updated_at": "2025-11-20T12:45:31.853833"
+            },
+            {
+                "id": "65bc34f8-9a8b-4030-8f7c-b3c732ec4bc7",
+                "title": "Left View",
+                "description": "Full-body child model in left side profile (90\u00b0 turn), standing straight, centered in portrait frame. Neutral posture, full outfit visible from head to shoes, balanced spacing, clean catalog composition",
+                "created_at": "2025-12-31T10:59:49.269534",
+                "updated_at": "2025-12-31T10:59:49.269534"
+            },
+            {
+                "id": "c05cf39c-0616-46b9-8d86-5f219d756103",
+                "title": "Right View",
+                "description": "Full-body child model in right side profile (90\u00b0 turn), static standing pose, centered alignment. Complete visibility from head to footwear, slight headroom, neutral background, marketplace-style framing.",
+                "created_at": "2025-12-31T11:00:08.867081",
+                "updated_at": "2025-12-31T11:00:08.867081"
+            },
+            {
+                "id": "ed00bb79-6f61-4642-a1c2-c5e0ae39c368",
+                "title": "Back View",
+                "description": "Full-length child model shown from the back, standing still, centered vertically and horizontally. Same outfit and proportions, head-to-toe visible with slight headroom, feet fully visible, neutral studio background.",
+                "created_at": "2025-12-31T11:00:17.995475",
+                "updated_at": "2025-12-31T11:00:17.995475"
             }
         ],
         "Catalog [Without Model]": [
@@ -199,6 +220,13 @@
                 "description": "\ud83c\udfaf Final Flat Lay Prompt (Fancy Lifestyle Look)\n\nTransform the given model-worn or hanging clothing catalog image into a stylish flat lay setup captured from a 90\u00b0 top-down view.\n\nArrange the top and bottom garments side-by-side in a modern, fashionable way \u2014 not one above the other.\n\nComposition details:\n\nPlace the top (T-shirt, sweatshirt, or hoodie) slightly to the left, sleeves relaxed and angled outward naturally.\n\nPosition the bottom (pants, joggers, or leggings) slightly to the right, angled at about 20\u201330\u00b0, with one leg gently crossing under or over the hem of the top.\n\nKeep both prints or graphics clearly visible and flat.\n\nAdd props (like shoes, bags, toys, or accessories) diagonally near corners for a lifestyle look.\n\nMaintain equal spacing and a balanced arrangement.\n\nLighting & surface:\n\nUse soft natural daylight from the top-left, with smooth diffused shadows.\n\nBackground should be a neutral textured surface (cotton mat, cream rug, or fabric backdrop).\n\nKeep overall tone bright, cozy, and premium.\n\nMood & framing:\n\nClean, high-end fashion catalog aesthetic.\n\nMaintain texture sharpness and garment realism.\n\nInclude natural creases and depth for realism.\n\nEnsure the frame has ~5\u20138 cm margin around the layout.",
                 "created_at": "2025-11-12T17:51:19.919409",
                 "updated_at": "2025-11-12T17:51:19.919409"
+            },
+            {
+                "id": "2fc72d01-ebfa-4aae-b7f6-824b332a8693",
+                "title": "Recreate Image Low -> High Quality",
+                "description": "Recreate the uploaded image from scratch using AI recreation.\n\nMatch the original product, colors, design, layout, and proportions exactly.\n\nImprove quality to ultra-high definition with:\n- Extremely sharp details\n- Clear fabric texture\n- Clean edges and stitching\n- Print embedded naturally into fabric\n\nMaintain full composition with proper spacing on all sides.\nDo not crop any outer elements.\nDo not blur, smooth, or upscale the original image.\n\nUse soft studio lighting, realistic shadows, and a clean professional e-commerce catalog look.\n\nOutput a photorealistic, ultra-clear, 4K+ quality image suitable for marketplace listings.",
+                "created_at": "2026-01-17T13:35:47.127688",
+                "updated_at": "2026-01-17T13:35:47.127688"
             }
         ],
         "DTF Style Generator": [
@@ -224,15 +252,29 @@
                 "description": "LittleBloom Girls\u2019 Full-Sleeve Outfit Set \u2013 Stylish Girls Top and Bottom Combo | Kidswear Clothing Set | Baby Girl Fashion Dress\n\nTinyDaisy Girls\u2019 Full-Sleeve Clothing Set \u2013 Trendy Kids Combo | Girls Top and Bottom Wear | Baby Girl Apparel\n\nSweetPea Girls\u2019 Full-Sleeve Combo Set \u2013 Adorable Kidswear Outfit | Girls Top & Bottom | Baby Girl Clothing\n\nAngelWear Girls\u2019 Full-Sleeve Outfit Combo \u2013 Stylish Kids Top and Bottom Set | Baby Girl Fashion Collection\n\nMiniMuse Girls\u2019 Full-Sleeve Clothing Set \u2013 Modern Kidswear Combo | Girls Top and Bottom Dress\n\nJoyNest Girls\u2019 Full-Sleeve Clothing Combo \u2013 Cute Kids Apparel | Girls Top and Bottom Set\n\nBloomBabe Girls\u2019 Full-Sleeve Fashion Set \u2013 Trendy Girls Top and Bottom Combo | Baby Girl Clothing Ensemble\n\nLittleAura Girls\u2019 Full-Sleeve Clothing Set \u2013 Stylish Kidswear Combo | Top and Bottom Dress Set\n\nKiddieBloom Girls\u2019 Full-Sleeve Outfit Set \u2013 Trendy Kids Combo | Baby Girl Top and Bottom Clothing\n\nGraceWear Girls\u2019 Full-Sleeve Apparel Set \u2013 Modern Kidswear Outfit | Girls Top and Bottom Combo\n\nTinyThreads Girls\u2019 Full-Sleeve Clothing Set \u2013 Fashionable Kids Top & Bottom | Baby Girl Outfit\n\nPrettyNest Girls\u2019 Full-Sleeve Combo Set \u2013 Cute Kidswear Outfit | Girls Apparel Set\n\nLovelySteps Girls\u2019 Full-Sleeve Clothing Combo \u2013 Trendy Top and Bottom Wear | Baby Girl Dress Collection\n\nStarBabe Girls\u2019 Full-Sleeve Outfit Set \u2013 Stylish Kids Apparel | Girls Top and Bottom Combo\n\nMiniPearl Girls\u2019 Full-Sleeve Clothing Set \u2013 Cute Kidswear Combo | Baby Girl Fashion Outfit\n\nFairyWear Girls\u2019 Full-Sleeve Clothing Set \u2013 Trendy Kids Top & Bottom | Baby Girl Dress\n\nStyleNest Girls\u2019 Full-Sleeve Clothing Combo \u2013 Modern Kidswear | Girls Top and Bottom Set\n\nTinyRoyals Girls\u2019 Full-Sleeve Outfit Set \u2013 Elegant Kids Combo | Top and Bottom Dress\n\nSoftBloom Girls\u2019 Full-Sleeve Apparel Set \u2013 Comfortable Kidswear | Girls Top & Bottom\n\nSweetNest Girls\u2019 Full-Sleeve Clothing Combo \u2013 Stylish Kids Top and Bottom Wear\n\nSparkleKids Girls\u2019 Full-Sleeve Outfit Set \u2013 Trendy Kids Apparel | Baby Girl Top & Bottom\n\nHoneyBloom Girls\u2019 Full-Sleeve Clothing Set \u2013 Elegant Kidswear Combo | Girls Outfit\n\nMiniDolls Girls\u2019 Full-Sleeve Top & Bottom Combo \u2013 Cute Kids Clothing Set | Baby Girl Dress\n\nPrettyPetals Girls\u2019 Full-Sleeve Clothing Combo \u2013 Stylish Kids Top and Bottom\n\nCherryWear Girls\u2019 Full-Sleeve Clothing Set \u2013 Modern Kids Combo | Baby Girl Outfit\n\nAngelSteps Girls\u2019 Full-Sleeve Apparel Set \u2013 Trendy Top and Bottom Wear | Kids Combo\n\nLittleStar Girls\u2019 Full-Sleeve Clothing Set \u2013 Stylish Kidswear Combo | Baby Girl Dress\n\nTinyCharm Girls\u2019 Full-Sleeve Outfit Set \u2013 Trendy Kids Apparel | Top and Bottom\n\nBloomWear Girls\u2019 Full-Sleeve Combo Set \u2013 Cute Kids Top and Bottom | Baby Girl Clothing\n\nKidsAura Girls\u2019 Full-Sleeve Clothing Set \u2013 Stylish Apparel Combo | Girls Outfit\n\nPrincessSteps Girls\u2019 Full-Sleeve Clothing Set \u2013 Stylish Kids Top and Bottom Dress\n\nMiniRose Girls\u2019 Full-Sleeve Outfit Combo \u2013 Trendy Kidswear | Baby Girl Apparel\n\nSunBabe Girls\u2019 Full-Sleeve Clothing Set \u2013 Comfortable Top and Bottom Wear\n\nBlossomWear Girls\u2019 Full-Sleeve Outfit Set \u2013 Cute Kidswear Combo | Baby Girl Dress\n\nTinyStyle Girls\u2019 Full-Sleeve Clothing Combo \u2013 Fashionable Kids Top & Bottom\n\nAngelBloom Girls\u2019 Full-Sleeve Clothing Set \u2013 Trendy Kids Apparel | Girls Outfit\n\nFairyNest Girls\u2019 Full-Sleeve Top and Bottom Set \u2013 Cute Kidswear Combo\n\nTrendBabe Girls\u2019 Full-Sleeve Clothing Set \u2013 Stylish Kids Combo | Baby Girl Apparel\n\nSweetCharm Girls\u2019 Full-Sleeve Clothing Combo \u2013 Soft Kidswear Set | Girls Outfit\n\nDazzleKids Girls\u2019 Full-Sleeve Apparel Set \u2013 Modern Top & Bottom Combo\n\nMiniMoods Girls\u2019 Full-Sleeve Clothing Combo \u2013 Trendy Kids Outfit | Baby Girl Wear\n\nPrettyCub Girls\u2019 Full-Sleeve Clothing Set \u2013 Stylish Top and Bottom Combo\n\nGlowNest Girls\u2019 Full-Sleeve Outfit Set \u2013 Cute Kidswear Dress Set\n\nClassyBabe Girls\u2019 Full-Sleeve Clothing Combo \u2013 Trendy Kids Top & Bottom\n\nRosePetal Girls\u2019 Full-Sleeve Clothing Set \u2013 Stylish Kids Apparel | Baby Girl Dress\n\nLilyWear Girls\u2019 Full-Sleeve Outfit Combo \u2013 Cute Kids Top and Bottom Set\n\nDreamWear Girls\u2019 Full-Sleeve Apparel Set \u2013 Trendy Kids Combo | Baby Girl Clothing\n\nPrincessNest Girls\u2019 Full-Sleeve Clothing Set \u2013 Modern Kids Top & Bottom Combo\n\nAngelCraft Girls\u2019 Full-Sleeve Clothing Combo \u2013 Cute Kidswear | Baby Girl Outfit\n\nTinyBloom Girls\u2019 Full-Sleeve Outfit Set \u2013 Stylish Kids Top & Bottom | Baby Girl Clothing",
                 "created_at": "2025-11-26T09:29:39.536110",
                 "updated_at": "2025-11-26T09:29:39.536110"
+            },
+            {
+                "id": "0fc91314-335a-4988-b428-41bab53f5883",
+                "title": "Girls Product Description",
+                "description": "\ud83c\udf3c Girls Stylish Top & Bottom Clothing Set | Printed Sweatshirt & Leggings Set for Kids\n\nUpgrade your little girl\u2019s everyday wardrobe with this adorable and comfortable Girls Top & Bottom Set, designed to blend cute style with all-day comfort. This trendy kidswear set includes a soft full-sleeve sweatshirt top paired with stretchable printed leggings, making it perfect for casual outings, school wear, playtime, and winter layering.\n\n\ud83d\udc55 Top Details\n\nThe mint green full-sleeve sweatshirt features a charming floral bicycle print with daisy detailing, adding a playful and fashionable touch. Crafted from premium cotton blend fabric, the top is soft on the skin, breathable, and warm, ensuring comfort throughout the day. The round neck design and ribbed cuffs provide a snug yet flexible fit, making it easy for kids to wear and move freely.\n\n\ud83d\udc56 Bottom Details\n\nThe matching black leggings come with a beautiful floral print on one leg, perfectly complementing the top. Made from stretchable, skin-friendly fabric, the leggings offer excellent flexibility, making them ideal for active kids. The elastic waistband ensures a secure and comfortable fit without irritation.\n\n\u2728 Key Features\n\n\u2705 Top & Bottom Combo Set for Girls\n\n\u2705 Soft & breathable cotton blend fabric\n\n\u2705 Cute floral & bicycle printed sweatshirt\n\n\u2705 Stretchable printed leggings with elastic waist\n\n\u2705 Comfortable full-sleeve design for cooler days\n\n\u2705 Lightweight, durable & easy to maintain\n\n\u2705 Ideal for daily wear, outings, school & playtime\n\n\ud83c\udfaf Perfect For\n\nThis girls clothing set is perfect for daily wear, casual outings, birthday parties, school wear, winter wear, and festive casual looks. Pair it with sneakers or sandals for an effortlessly stylish appearance.\n\n\ud83e\uddfc Care Instructions\n\nGentle machine wash or hand wash\n\nWash dark colors separately\n\nDo not bleach\n\nDry in shade for long-lasting color\n\n\ud83d\udecd\ufe0f Why Choose This Set?\n\nIf you are looking for trendy girls top and bottom sets, kids sweatshirt leggings combo, or comfortable girls winter wear, this set is an excellent choice. It offers style, comfort, durability, and value for money, making it a must-have addition to your child\u2019s wardrobe.",
+                "created_at": "2026-01-10T16:13:31.383680",
+                "updated_at": "2026-01-10T16:13:31.383680"
+            },
+            {
+                "id": "a6f4c432-5bc2-45f2-aab4-79661133daee",
+                "title": "Boys Product Description",
+                "description": "\ud83d\udc66 Boys Trendy Top & Bottom Clothing Set | Printed Sweatshirt & Track Pant Set for Kids\n\nGive your little champ a perfect mix of style, comfort, and durability with this Boys Top & Bottom Clothing Set. Designed for active kids, this set includes a full-sleeve printed sweatshirt paired with comfortable track pants, making it an ideal choice for daily wear, outdoor play, school, and casual outings.\n\n\ud83d\udc55 Top Details\n\nThe stylish full-sleeve sweatshirt features a cool and attractive graphic print that adds a modern and playful vibe. Made from a premium cotton blend fabric, the top is soft, breathable, and gentle on kids\u2019 skin, keeping them comfortable throughout the day. The round neck with ribbed cuffs and hem ensures a neat fit while allowing easy movement.\n\n\ud83d\udc56 Bottom Details\n\nThe matching track pants are designed for comfort and flexibility. Crafted from stretchable, skin-friendly fabric, they allow free movement during playtime and daily activities. The elastic waistband provides a secure and adjustable fit, making the pants easy to wear for growing kids.\n\n\u2728 Key Features\n\n\u2705 Boys Top & Bottom Combo Set\n\n\u2705 Soft & breathable cotton blend fabric\n\n\u2705 Trendy printed full-sleeve sweatshirt\n\n\u2705 Comfortable track pants with elastic waist\n\n\u2705 Lightweight, durable & easy to maintain\n\n\u2705 Suitable for all-day wear and active use\n\n\u2705 Stylish yet practical kidswear set\n\n\ud83c\udfaf Perfect For\n\nThis boys clothing set is perfect for daily wear, casual outings, school wear, travel, playtime, and light winter wear. Pair it with sneakers or sports shoes for a sporty and stylish look.\n\n\ud83e\uddfc Care Instructions\n\nMachine wash or hand wash\n\nWash with similar colors\n\nDo not bleach\n\nDry in shade to maintain print quality\n\n\ud83d\udecd\ufe0f Why Choose This Set?\n\nIf you are searching for boys sweatshirt and pant set, kids top bottom dress for boys, or comfortable boys casual wear, this combo set is a great pick. It offers excellent comfort, trendy design, and long-lasting quality, making it a value-for-money choice for parents.",
+                "created_at": "2026-01-10T16:14:35.657661",
+                "updated_at": "2026-01-18T16:50:59.505612"
             }
         ],
         "Product Color": [
             {
                 "id": "f5524edb-adf9-4344-b55b-7db69b12bced",
                 "title": "Full Sleeve T-Shirt",
-                "description": "Royal Blue: #2546e4\nYellow: #fcd100\nAquaBlue: #65f0eb\nSkyBlue: #aac9ee\nRed: #c2250a\nLight Pink: #f2c9cf\nPista: #8ae2af\nDark Pink: #f16a92\nWhite: #ffffff\nBlack: #191313\nAqua Blue Variation: #4287f5\nPista Variant: #6d8b7f\nMahendi: #4b5635",
+                "description": "Royal Blue: #2546e4\nYellow: #fcd100\nAquaBlue: #65f0eb\nSkyBlue: #aac9ee\nRed: #c2250a\nLight Pink: #f2c9cf\nPista: #8ae2af\nDark Pink: #f16a92\nWhite: #ffffff\nBlack: #191313\nAqua Blue Variation: #4287f5\nPista Variant: #6d8b7f\nMahendi: #4b5635\nMarron: #5a1314",
                 "created_at": "2025-11-30T11:09:51.227737",
-                "updated_at": "2025-11-30T11:11:33.267867"
+                "updated_at": "2026-02-08T13:32:19.998279"
             },
             {
                 "id": "aea46ba3-c6a1-423b-a429-762f771bb24b",
@@ -244,9 +286,76 @@
             {
                 "id": "4bbe04c8-3252-482b-b8eb-5e667a3afd6e",
                 "title": "Joggers",
-                "description": "Brown: #bd8761\nPurple: #d7bce6\nOrange: #f66d25\nMahendi: #57592c\nMahendi: #4b5635\nPeach: #f2c9cf\nBlack: #191313",
+                "description": "Brown: #bd8761 | #713e1d\nPurple: #d7bce6\nOrange: #f66d25\nMahendi: #57592c\nMahendi: #4b5635\nPeach: #f2c9cf\nBlack: #191313",
                 "created_at": "2025-11-30T11:10:33.329469",
-                "updated_at": "2025-11-30T11:10:33.329469"
+                "updated_at": "2026-01-18T16:45:48.305323"
+            }
+        ],
+        "Review": [
+            {
+                "id": "a82a6dc9-9f95-4bad-a78d-6667e4aed0f2",
+                "title": "Review with model",
+                "description": "(Final)\n\nUse the provided catalog image strictly as the product reference.\nDo NOT change clothing design, color, fabric texture, stitching, or logo placement (\u201cNice\u201d).\n\nIMPORTANT:\nGenerate EXACTLY ONE image.\nThis image represents ONE unique customer photo.\nDo NOT combine multiple scenes or people.\n\nGender Consistency Rule (MANDATORY):\n- Detect the gender of the child in the catalog image\n- If the catalog shows a BOY, generate ONLY boys\n- If the catalog shows a GIRL, generate ONLY girls\n- Do NOT generate cross-gender images\n\nCatalog Text Handling Rule (MANDATORY):\n- Ignore any text, watermark, price tag, or label present in the catalog image\n- Especially ignore text near corners (bottom-left, bottom-right, top)\n- Do NOT reproduce or invent any text\n- Only the original clothing logo (\u201cNice\u201d) is allowed\n\nIdentity Randomization (MANDATORY):\n- This image must feature a NEW child\n- Different face, hairstyle, skin tone, age (6\u201312), height, and build\n- Do NOT reuse any previous child identity\n\nScene & Background Randomization (MANDATORY):\n- This image must be set in a NEW Indian home or outdoor location\n- Different room, wall color, layout, and household items\n- Indoor, semi-outdoor, or outdoor Indian environment\n- Do NOT reuse previous backgrounds\n\nSubject:\n- Child wearing the outfit casually\n- Natural, unposed posture\n- Slightly awkward or relaxed stance allowed\n- Barefoot or simple slippers\n\nCamera:\n- Cheap Android mobile phone look\n- Slight tilt or imperfect framing\n- Subject not perfectly centered\n- Natural daylight or mixed indoor lighting\n- Minor blur or grain\n\nAuthenticity:\n- Must look like a real customer-uploaded review photo\n- NOT studio\n- NOT advertisement\n- NOT influencer-style\n- NOT catalog-like\n\nStyle:\nUltra-realistic\nRaw\nUnedited\nCandid\n\nAspect ratio: 3:4 or 4:5\n",
+                "created_at": "2026-01-09T15:05:31.023485",
+                "updated_at": "2026-01-09T15:05:31.023485"
+            },
+            {
+                "id": "22fd1baf-fe7d-4ff0-870a-86a5f5747f6b",
+                "title": "Review with Varitation",
+                "description": "Use the provided catalog image strictly as the product reference.\nDo NOT change clothing design, color, fabric texture, stitching, or logo placement.\n\nGenerate EXACTLY ONE image.\nThis must look like a REAL, careless Indian customer review photo.\n\nProduct must NOT be worn.\nProduct must NOT be near any box, packaging, phone, or hands.\n\nCamera:\n- Top-down only (90\u00b0 overhead)\n- Cheap Android phone look\n- Uneven lighting, dull or yellowish\n- Slight blur or grain allowed\n\nIndian surface only:\n- Old Indian bedsheet or floor mat\n- Loud floral / mixed prints\n- Wrinkles and wear visible\n\nABSOLUTE RULE:\nIf the image looks neat, centered, symmetrical, or sellable, it is WRONG.\n",
+                "created_at": "2026-01-10T01:08:32.610720",
+                "updated_at": "2026-01-10T01:08:32.610720"
+            },
+            {
+                "id": "288894ea-37c6-4bc3-bc2a-6fd60ec6bf2c",
+                "title": "Placement Variantion",
+                "description": "Placement variation:\n- One sleeve folded inward or hidden under the shirt\n- Shirt slightly tilted\n- Pants overlapping shirt unevenly\n\n\nPlacement variation:\n- Part of the pants slightly cut by the frame\n- Clothes off-center\n- Uneven spacing\n\nPlacement variation:\n- Clothes placed as if dropped casually\n- Shirt slightly rotated\n- Pants twisted or bent",
+                "created_at": "2026-01-10T01:09:03.527402",
+                "updated_at": "2026-01-10T11:48:24.656242"
+            },
+            {
+                "id": "1dfb1bf3-74ae-4e2e-880d-f9b80875e07a",
+                "title": "Floor VAriation",
+                "description": "Surface preference for this image:\n- Place clothes directly on worn tile or cement floor\n\nSurface preference for this image:\n- Use very loud, clashing Indian bedsheet patterns\n\nSurface preference for this image:\n- Small bed with part of surface cut off by frame\n",
+                "created_at": "2026-01-10T11:48:59.777988",
+                "updated_at": "2026-01-10T11:48:59.777988"
+            },
+            {
+                "id": "a02fb366-0822-4f64-a6a7-8c37d5009239",
+                "title": "Reivew with model_2",
+                "description": "Use the provided catalog image strictly as the product reference.\nDo NOT change clothing design, color, fabric texture, stitching, or logo placement (\u201cNice\u201d).\n\nIMPORTANT:\nGenerate EXACTLY ONE image.\nThis image represents ONE unique customer photo.\nDo NOT combine multiple scenes or people.\n\nGender Consistency Rule (MANDATORY):\n- Detect the gender of the child in the catalog image\n- If the catalog shows a BOY, generate ONLY boys\n- If the catalog shows a GIRL, generate ONLY girls\n- Do NOT generate cross-gender images\n\nCatalog Text Handling Rule (MANDATORY):\n- Ignore any text, watermark, price tag, or label present in the catalog image\n- Especially ignore text near corners (bottom-left, bottom-right, top)\n- Do NOT reproduce or invent any text\n- Only the original clothing logo (\u201cNice\u201d) is allowed\n\nIdentity Randomization (MANDATORY):\n- This image must feature a NEW child\n- Different face, hairstyle, skin tone, age (6\u201312), height, and build\n- Do NOT reuse any previous child identity\n\nScene & Background Randomization (MANDATORY):\n- This image must be set in a NEW Indian home or outdoor location\n- Different room, wall color, layout, and household items\n- Indoor, semi-outdoor, or outdoor Indian environment\n- Do NOT reuse previous backgrounds\n\nSubject:\n- Child wearing the outfit casually\n- Natural, unposed posture\n- Slightly awkward or relaxed stance allowed\n- Barefoot or simple slippers\n\nCamera:\n- Cheap Android mobile phone look\n- Slight tilt or imperfect framing\n- Subject not perfectly centered\n- Natural daylight or mixed indoor lighting\n- Minor blur or grain\n\nAuthenticity:\n- Must look like a real customer-uploaded review photo\n- NOT studio\n- NOT advertisement\n- NOT influencer-style\n- NOT catalog-like\n\nStyle:\nUltra-realistic\nRaw\nUnedited\nCandid\n\nAspect ratio: 3:4 or 4:5\n",
+                "created_at": "2026-01-10T12:37:18.976197",
+                "updated_at": "2026-01-10T12:37:18.976197"
+            }
+        ],
+        "flipkart": [
+            {
+                "id": "457b798a-081f-43e2-9424-263b6beb0ecd",
+                "title": "desription",
+                "description": "description:\n\nUpgrade your child\u2019s everyday style with this trendy girls white sweatshirt-style T-shirt paired with comfortable black joggers. Designed to blend fashion and ease, this stylish co-ord set is perfect for playtime, casual outings, or relaxed days at home, keeping your little girl looking cute and feeling comfy all day long.\n\n\nsearch keywords:\ngirls pista color sweatshirt::pista green sweatshirt girls::black leggings girls::girls sweatshirt set::kids\n\nKey featurs:\ngirls clothing set::girls sweatshirt set::girls t shirt and leggings set::white sweatshirt girls::black leggings girls::kids casual wear",
+                "created_at": "2026-01-30T16:48:38.585615",
+                "updated_at": "2026-01-30T16:48:54.075546"
+            },
+            {
+                "id": "943bf09d-4a09-4e2d-bf49-c4fa3289050c",
+                "title": "girls description",
+                "description": "Upgrade your child\u2019s everyday style with this trendy girls white sweatshirt-style T-shirt paired with comfortable black leggings. Designed to blend fashion and ease, this stylish co-ord set is perfect for playtime, casual outings, or relaxed days at home, keeping your little girl looking cute and feeling comfy all day long.\n",
+                "created_at": "2026-02-01T12:58:49.549614",
+                "updated_at": "2026-02-01T12:58:49.549614"
+            },
+            {
+                "id": "6b02fd3c-2ff5-40f3-9636-632aabdacd15",
+                "title": "girls search keyword",
+                "description": "girls pink color sweatshirt::pink sweatshirt girls::black leggings girls::girls sweatshirt set::kids top bottom",
+                "created_at": "2026-02-01T12:59:06.155525",
+                "updated_at": "2026-02-01T13:00:08.274025"
+            },
+            {
+                "id": "d3628fb3-ffc9-4eaa-af9c-ca64c1e8505e",
+                "title": "girls key features",
+                "description": "girls clothing set::girls sweatshirt set::girls t shirt and leggings set::white sweatshirt girls::black leggings girls::kids casual wear",
+                "created_at": "2026-02-01T13:00:24.794274",
+                "updated_at": "2026-02-01T13:00:24.794274"
             }
         ]
     }

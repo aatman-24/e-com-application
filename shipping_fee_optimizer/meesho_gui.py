@@ -36,8 +36,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 IMAGE_UPLOAD_URL = "https://supplier.meesho.com/catalogingapi/api/singleCatalogUpload/uploadSingleCatalogImages"
 FETCH_DUP_PID_URL = "https://supplier.meesho.com/catalogingapi/api/priceRecommendation/fetchDuplicatePid"
 FEE_URL = "https://supplier.meesho.com/catalogingapi/api/singleCatalogUpload/getTransferPrice"
-# REFERER_PAGE = "https://supplier.meesho.com/panel/v3/new/cataloging/bwqsg/catalogs/single/add"
-REFERER_PAGE = "https://supplier.meesho.com/panel/v3/new/cataloging/zmkwe/catalogs/single/add"
+REFERER_PAGE = "https://supplier.meesho.com/panel/v3/new/cataloging/bwqsg/catalogs/single/add"
+# REFERER_PAGE = "https://supplier.meesho.com/panel/v3/new/cataloging/zmkwe/catalogs/single/add"
 
 COMMON_HEADERS_TEMPLATE = {
     "accept": "application/json, text/plain, */*",
@@ -545,8 +545,8 @@ class MainWindow(QtWidgets.QMainWindow):
             "fetch_dup_delay": 1.5,
             "fee_retries": 6,
             "fee_delay": 1.0,
-            "fetch_dup_base": {"is_old_image_match_enabled": True, "sscat_id": 13864},
-            "fee_base": {"sscat_id": 13864, "gst_percentage": 5, "price": 100, "supplier_id": 2989863, "gst_type": "GSTIN"},
+            "fetch_dup_base": {"is_old_image_match_enabled": True, "sscat_id": 12812},
+            "fee_base": {"sscat_id": 12812, "gst_percentage": 5, "price": 20, "supplier_id": 2989863, "gst_type": "GSTIN"},
         }
 
         # UI state

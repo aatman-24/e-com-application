@@ -124,9 +124,9 @@ def include_row(row) -> bool:
     status = str(row.get('Reason for Credit Entry', '')).strip().upper()
     packet_id = row.get('Packet Id', '')
     packet_id_str = '' if pd.isna(packet_id) else str(packet_id).strip()
-    if status == 'CANCELLED':
+    if status in ('CANCELLED', 'HOLD'):
         return False
-    if status in ('PENDING', 'HOLD'):
+    if status in ('PENDING'):
         return True
     if status == 'READY_TO_SHIP':
         return packet_id_str == '' or packet_id_str.lower() in ('nan', 'none')
@@ -139,11 +139,12 @@ class ReportGenerator(QtCore.QObject):
     finished = QtCore.pyqtSignal(str, str)  # message, output_path
     progress = QtCore.pyqtSignal(str)
 
-    def __init__(self, orders_path, sku_map_path, output_path):
+    def __init__(self, orders_paths, sku_map_path, output_path):
         super().__init__()
-        self.orders_path = orders_path
+        self.orders_paths = orders_paths
         self.sku_map_path = sku_map_path
         self.output_path = output_path
+
 
     def run(self):
         try:
@@ -155,8 +156,26 @@ class ReportGenerator(QtCore.QObject):
                 self.finished.emit(f"ERROR: Orders file not found: {self.orders_path}", self.output_path)
                 return
 
-            df = pd.read_csv(self.orders_path, dtype=str)
-            self.progress.emit(f"Total rows in orders file: {len(df)}")
+            # df = pd.read_csv(self.orders_path, dtype=str)
+            # self.progress.emit(f"Total rows in orders file: {len(df)}")
+
+
+            dfs = []
+
+            for path in self.orders_paths:
+                self.progress.emit(f"Loading orders file: {path}")
+                try:
+                    dfs.append(pd.read_csv(path, dtype=str))
+                except Exception as e:
+                    self.progress.emit(f"⚠️ Failed to read {path}: {e}")
+
+            if not dfs:
+                self.finished.emit("ERROR: No valid orders files could be loaded.", self.output_path)
+                return
+
+            df = pd.concat(dfs, ignore_index=True)
+            self.progress.emit(f"Total rows after merging files: {len(df)}")
+
 
             df_filtered = df[df.apply(include_row, axis=1)]
             self.progress.emit(f"Rows after applying status/packet rules: {len(df_filtered)}")
@@ -401,9 +420,18 @@ class MainWindow(QtWidgets.QMainWindow):
         sku_map_path = self.sku_edit.text().strip()
         output_path = default_output_path()
 
-        if not orders_path or not os.path.exists(orders_path):
-            QtWidgets.QMessageBox.warning(self, 'Missing file', 'Orders CSV not found or path is empty.')
+        if not orders_paths:
+            QtWidgets.QMessageBox.warning(self, 'Missing file', 'Please select at least one Orders CSV.')
             return
+
+        for p in orders_paths:
+            if not os.path.exists(p):
+                QtWidgets.QMessageBox.warning(self, 'Missing file', f'Orders CSV not found:\n{p}')
+                return
+
+        # if not orders_path or not os.path.exists(orders_path):
+        #     QtWidgets.QMessageBox.warning(self, 'Missing file', 'Orders CSV not found or path is empty.')
+        #     return
 
         if not sku_map_path or not os.path.exists(sku_map_path):
             ret = QtWidgets.QMessageBox.question(self, 'SKU Map missing', 'SKU mapping file not found. Continue without mapping?', QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
@@ -418,7 +446,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.last_output_path = output_path
 
         self.thread = QtCore.QThread()
-        self.worker = ReportGenerator(orders_path, sku_map_path, output_path)
+        self.worker = ReportGenerator(orders_paths, sku_map_path, output_path)
         self.worker.moveToThread(self.thread)
         self.worker.progress.connect(self.append_log)
         self.worker.finished.connect(self.on_finished)

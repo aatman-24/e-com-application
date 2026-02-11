@@ -618,7 +618,7 @@ class MainWindow(QtWidgets.QMainWindow):
             "fee_retries": 6,
             "fee_delay": 1.0,
             "fetch_dup_base": {
-                "is_old_image_match_enabled": True,
+                "is_old_image_match_enabled": False,
                 "sscat_id": sscat_id,
             },
             "fee_base": {
