@@ -6,10 +6,6 @@ PyQt5 GUI wrapper for:
  - generate N bordered images from an input image
  - for each generated image: upload -> fetchDuplicatePid -> getTransferPrice
  - write results_<timestamp>.csv into output_dir with columns: file_name, shipping_charges
-
-Usage:
-  pip install PyQt5 pillow requests
-  python me esho_gui.py
 """
 
 import sys
@@ -20,7 +16,6 @@ import tempfile
 import random
 import colorsys
 import json
-import threading
 from pathlib import Path
 from typing import Tuple, Dict, Any, Optional
 
@@ -29,26 +24,28 @@ from PIL import Image, ImageOps
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 # ---------------------------
 # Default API endpoints/config
-# (You can change these constants if endpoints change)
 # ---------------------------
+
 IMAGE_UPLOAD_URL = "https://supplier.meesho.com/catalogingapi/api/singleCatalogUpload/uploadSingleCatalogImages"
 FETCH_DUP_PID_URL = "https://supplier.meesho.com/catalogingapi/api/priceRecommendation/fetchDuplicatePid"
 FEE_URL = "https://supplier.meesho.com/catalogingapi/api/singleCatalogUpload/getTransferPrice"
-# REFERER_PAGE = "https://supplier.meesho.com/panel/v3/new/cataloging/bwqsg/catalogs/single/add"
-REFERER_PAGE = "https://supplier.meesho.com/panel/v3/new/cataloging/zmkwe/catalogs/single/add"
 
+# REFERER is now built dynamically as:
+# https://supplier.meesho.com/panel/v3/new/cataloging/{identifier}/catalogs/single/add
+REFERER_TEMPLATE = "https://supplier.meesho.com/panel/v3/new/cataloging/{identifier}/catalogs/single/add"
+
+# Base headers (identifier + referer will be injected at runtime)
 COMMON_HEADERS_TEMPLATE = {
     "accept": "application/json, text/plain, */*",
     "accept-language": "en-GB,en;q=0.9",
     "browser-id": "NnAgKyAyMnQgKyAxejQxNDAxejQxNDBv",
     "client-package-version": "1.0.1",
     "client-type": "d-web",
-    "identifier": "bwqsg",
     "origin": "https://supplier.meesho.com",
     "priority": "u=1, i",
-    "referer": REFERER_PAGE,
     "sec-ch-ua": '"Chromium";v="142", "Brave";v="142", "Not_A Brand";v="99"',
     "sec-ch-ua-mobile": "?0",
     "sec-ch-ua-platform": '"Linux"',
@@ -56,13 +53,14 @@ COMMON_HEADERS_TEMPLATE = {
     "sec-fetch-mode": "cors",
     "sec-fetch-site": "same-origin",
     "sec-gpc": "1",
-    "supplier-id": "2989863",
+    # identifier, referer, and supplier-id will be added later
     "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
 }
 
 # ---------------------------
 # Network / processing helpers
 # ---------------------------
+
 def parse_cookie_string(cookie_str: str) -> dict:
     d = {}
     for part in cookie_str.split(";"):
@@ -97,8 +95,9 @@ def upload_image(session: requests.Session, image_path: Path, headers_base: dict
     files = {"file": (send_name, open(file_path, "rb"), mime)}
     data = {"data": "undefined"}
     headers = dict(headers_base)
-    print(headers)
-    print(files)
+
+    
+
     try:
         resp = session.post(IMAGE_UPLOAD_URL, headers=headers, files=files, data=data, timeout=30)
     finally:
@@ -137,6 +136,7 @@ def call_fetch_duplicate_pid(session: requests.Session, image_url: str, headers_
     payload = dict(base_payload)
     payload["image_url"] = image_url
     print("payload: ", payload)
+    print("session: ", session)
     try:
         r = session.post(FETCH_DUP_PID_URL, headers=headers, json=payload, timeout=30)
     except Exception as e:
@@ -204,6 +204,7 @@ def contains_fee(json_obj) -> bool:
 # ---------------------------
 # Image generation (borders)
 # ---------------------------
+
 def generate_hsl_colors(count):
     colors = []
     for i in range(count):
@@ -221,6 +222,7 @@ def add_border(img: Image.Image, thickness: int, color):
 # ---------------------------
 # Worker thread class
 # ---------------------------
+
 class WorkerSignals(QtCore.QObject):
     progress = QtCore.pyqtSignal(int)            # int percent
     log = QtCore.pyqtSignal(str)                 # log line
@@ -254,11 +256,8 @@ class Worker(QtCore.QRunnable):
 
     def _run_pipeline(self) -> str:
         conf = self.config
-        # prepare output dir
         out_dir = Path(conf["output_dir"])
         out_dir.mkdir(parents=True, exist_ok=True)
-
-
 
         # generate images
         src = Image.open(conf["input_image"]).convert("RGB")
@@ -280,7 +279,45 @@ class Worker(QtCore.QRunnable):
         # prepare session
         session = requests.Session()
         session.cookies.update(parse_cookie_string(conf["cookie_string"]))
-        headers = dict(COMMON_HEADERS_TEMPLATE)  # base headers
+
+        headers = dict(COMMON_HEADERS_TEMPLATE)
+        identifier = conf["identifier"]
+        referer_page = conf["referer_page"]
+
+        headers["identifier"] = identifier
+        headers["referer"] = referer_page
+
+
+
+        # Try to get supplier-id automatically from cookie (safer)
+        cookie_supplier = (
+            session.cookies.get("supplier_id")
+            or session.cookies.get("supplier-id")
+        )
+        if cookie_supplier:
+            headers["supplier-id"] = str(cookie_supplier)
+        else:
+            # fallback to the value from UI if cookie doesn't have it
+            headers["supplier-id"] = str(conf["supplier_id"])
+
+        session.headers.update(headers)
+
+
+        # supplier-id from cookie if available (more reliable)
+        cookie_supplier = None
+        for key in ["supplier_id", "supplier-id", "supplierId"]:
+            val = session.cookies.get(key)
+            if val:
+                cookie_supplier = val
+                break
+
+        if cookie_supplier:
+            headers["supplier-id"] = str(cookie_supplier)
+            self.signals.log.emit(f"Using supplier-id from cookie: {cookie_supplier}")
+        else:
+            self.signals.log.emit("WARNING: No supplier id found in COOKIE_STRING; upload may fail.")
+
+        session.headers.clear()
         session.headers.update(headers)
 
         # open csv for this run
@@ -306,7 +343,6 @@ class Worker(QtCore.QRunnable):
                     self.signals.log.emit(f"Upload JSON: {json.dumps(up['json'], ensure_ascii=False)}")
                 else:
                     self.signals.log.emit(f"Upload text: {up.get('text')}")
-                # if upload failed, skip next steps
                 if not up.get("ok") or not up.get("json"):
                     self.signals.log.emit(f"❌ Upload failed for {p.name} — skipping.")
                     writer.writerow({"file_name": p.name, "shipping_charges": ""})
@@ -330,7 +366,7 @@ class Worker(QtCore.QRunnable):
                 # small wait + refresh referer + poll CDN
                 time.sleep(1.2)
                 try:
-                    session.get(REFERER_PAGE, timeout=10)
+                    session.get(referer_page, timeout=10)
                 except Exception:
                     pass
                 ok, info = poll_cdn_for_url(session, image_url, headers, tries=conf["cdn_tries"], delay=conf["cdn_delay"])
@@ -401,13 +437,13 @@ class Worker(QtCore.QRunnable):
 # ---------------------------
 # PyQt5 UI
 # ---------------------------
+
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Meesho Bulk Border + Shipping Checker")
         self.setMinimumSize(800, 600)
 
-        # central layout
         w = QtWidgets.QWidget()
         self.setCentralWidget(w)
         layout = QtWidgets.QVBoxLayout(w)
@@ -424,12 +460,39 @@ class MainWindow(QtWidgets.QMainWindow):
         form.addWidget(btn_browse, 0, 2)
         btn_browse.clicked.connect(self.browse_image)
 
-        # Cookie string
-        form.addWidget(QtWidgets.QLabel("COOKIE_STRING (paste entire cookie header):"), 1, 0, 1, 3)
+        # COOKIE + SSCAT + Supplier + Identifier row
+        cookie_label = QtWidgets.QLabel("COOKIE_STRING (paste entire cookie header):")
+        layout.addWidget(cookie_label)
+
+        cookie_row = QtWidgets.QHBoxLayout()
+        layout.addLayout(cookie_row)
+
+        # left: cookie box (shorter)
         self.te_cookie = QtWidgets.QPlainTextEdit()
         self.te_cookie.setPlaceholderText("cookie1=val; cookie2=val; ...")
-        self.te_cookie.setMaximumHeight(100)
-        layout.addWidget(self.te_cookie)
+        self.te_cookie.setMaximumHeight(60)
+        cookie_row.addWidget(self.te_cookie, 3)
+
+        # right: SSCAT ID, Supplier ID, Identifier
+        id_form = QtWidgets.QFormLayout()
+
+        self.le_sscat_id = QtWidgets.QLineEdit()
+        self.le_sscat_id.setValidator(QtGui.QIntValidator(1, 10**9, self))
+        self.le_sscat_id.setText("10285")   # default
+
+        self.le_supplier_id = QtWidgets.QLineEdit()
+        self.le_supplier_id.setValidator(QtGui.QIntValidator(1, 10**9, self))
+        self.le_supplier_id.setText("2989863")  # default (you can change)
+
+        self.le_identifier = QtWidgets.QLineEdit()
+        self.le_identifier.setPlaceholderText("e.g. bwqsg or zmkwe")
+        self.le_identifier.setText("zmkwe")  # default based on your current example
+
+        id_form.addRow("SSCAT ID:", self.le_sscat_id)
+        id_form.addRow("Supplier ID:", self.le_supplier_id)
+        id_form.addRow("Identifier:", self.le_identifier)
+
+        cookie_row.addLayout(id_form, 1)
 
         # Border thickness + num images + output dir
         form2 = QtWidgets.QHBoxLayout()
@@ -453,7 +516,6 @@ class MainWindow(QtWidgets.QMainWindow):
         downloads_dir = os.path.expanduser("~/Downloads")
         default_out = str(Path(downloads_dir, "generated_border").resolve())
         self.le_outdir = QtWidgets.QLineEdit(default_out)
-        # self.le_outdir = QtWidgets.QLineEdit(str(Path("output/border_images").resolve()))
         Path(default_out).parent.mkdir(parents=True, exist_ok=True)
         form2.addWidget(self.le_outdir)
         btn_out = QtWidgets.QPushButton("Select")
@@ -485,14 +547,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.btn_stop.clicked.connect(self.stop)
         btn_open.clicked.connect(self.open_output_folder)
 
-        # threadpool & worker handle
         self.pool = QtCore.QThreadPool.globalInstance()
         self.worker_obj = None
-
-    # def browse_image(self):
-    #     f, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Select source image", ".", "Images (*.png *.jpg *.jpeg *.webp *.bmp)")
-    #     if f:
-    #         self.le_image.setText(f)
 
     def browse_image(self):
         start_dir = os.path.expanduser("~/Downloads")
@@ -505,7 +561,6 @@ class MainWindow(QtWidgets.QMainWindow):
         if f:
             self.le_image.setText(f)
 
-
     def browse_outdir(self):
         d = QtWidgets.QFileDialog.getExistingDirectory(self, "Select output directory", ".")
         if d:
@@ -514,24 +569,37 @@ class MainWindow(QtWidgets.QMainWindow):
     def append_log(self, text: str):
         ts = time.strftime("%H:%M:%S")
         self.log.appendPlainText(f"[{ts}] {text}")
-        # auto-scroll
         self.log.verticalScrollBar().setValue(self.log.verticalScrollBar().maximum())
 
     def start(self):
-        # validate inputs
         input_image = self.le_image.text().strip()
         cookie = self.te_cookie.toPlainText().strip()
+        sscat_id_text = self.le_sscat_id.text().strip()
+        supplier_id_text = self.le_supplier_id.text().strip()
+        identifier_text = self.le_identifier.text().strip()
+
         if not input_image or not Path(input_image).exists():
             QtWidgets.QMessageBox.warning(self, "Missing input image", "Please select a valid source image file.")
             return
         if not cookie:
             QtWidgets.QMessageBox.warning(self, "Missing COOKIE_STRING", "Please paste your COOKIE_STRING.")
             return
+        if not sscat_id_text or not supplier_id_text or not identifier_text:
+            QtWidgets.QMessageBox.warning(self, "Missing fields", "Please enter SSCAT ID, Supplier ID, and Identifier.")
+            return
+
+        try:
+            sscat_id = int(sscat_id_text)
+            supplier_id = int(supplier_id_text)
+        except ValueError:
+            QtWidgets.QMessageBox.warning(self, "Invalid IDs", "SSCAT ID and Supplier ID must be numbers.")
+            return
 
         outdir = Path(self.le_outdir.text()).expanduser().resolve()
         outdir.mkdir(parents=True, exist_ok=True)
 
-        # prepare config
+        referer_page = REFERER_TEMPLATE.format(identifier=identifier_text)
+
         config = {
             "input_image": input_image,
             "border_thickness": int(self.sb_thickness.value()),
@@ -539,23 +607,34 @@ class MainWindow(QtWidgets.QMainWindow):
             "color_mode": "hsl",
             "output_dir": str(outdir),
             "cookie_string": cookie,
+            "sscat_id": sscat_id,
+            "supplier_id": supplier_id,
+            "identifier": identifier_text,
+            "referer_page": referer_page,
             "cdn_tries": 8,
             "cdn_delay": 1.0,
             "fetch_dup_retries": 2,
             "fetch_dup_delay": 1.5,
             "fee_retries": 6,
             "fee_delay": 1.0,
-            "fetch_dup_base": {"is_old_image_match_enabled": True, "sscat_id": 13864},
-            "fee_base": {"sscat_id": 13864, "gst_percentage": 5, "price": 100, "supplier_id": 2989863, "gst_type": "GSTIN"},
+            "fetch_dup_base": {
+                "is_old_image_match_enabled": True,
+                "sscat_id": sscat_id,
+            },
+            "fee_base": {
+                "sscat_id": sscat_id,
+                "gst_percentage": 5,
+                "price": 100,
+                "supplier_id": supplier_id,
+                "gst_type": "GSTIN",
+            },
         }
 
-        # UI state
         self.progress.setValue(0)
         self.log.clear()
         self.btn_start.setEnabled(False)
         self.btn_stop.setEnabled(True)
 
-        # create worker
         worker = Worker(config)
         worker.signals.progress.connect(self.progress.setValue)
         worker.signals.log.connect(self.append_log)
@@ -564,12 +643,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.worker_obj = worker
         self.pool.start(worker)
-        self.append_log("Worker started.")
+        self.append_log("Processing...")
 
     def stop(self):
         if self.worker_obj:
             self.worker_obj.abort()
-            self.append_log("Abort requested. Waiting for worker to stop...")
+            self.append_log("Stopping... please wait")
             self.btn_stop.setEnabled(False)
 
     def _on_finished(self, csv_path: str):
@@ -591,7 +670,6 @@ class MainWindow(QtWidgets.QMainWindow):
         if not d.exists():
             QtWidgets.QMessageBox.information(self, "No output", f"Output folder does not exist: {d}")
             return
-        # open folder in system file manager
         if sys.platform.startswith("linux"):
             os.system(f'xdg-open "{d}"')
         elif sys.platform == "darwin":
@@ -602,6 +680,7 @@ class MainWindow(QtWidgets.QMainWindow):
 # ---------------------------
 # entrypoint
 # ---------------------------
+
 def main():
     app = QtWidgets.QApplication(sys.argv)
     win = MainWindow()

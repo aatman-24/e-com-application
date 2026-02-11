@@ -368,11 +368,23 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # QLabel { color: #F0F0F0; font-size: 12pt; font-weight: bold; }
 
+    # def browse_orders(self):
+    #     downloads = os.path.expanduser('~/Downloads')
+    #     path, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Select Orders CSV', downloads, 'CSV Files (*.csv);;All Files (*)')
+    #     if path:
+    #         self.orders_edit.setText(path)
+
     def browse_orders(self):
         downloads = os.path.expanduser('~/Downloads')
-        path, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Select Orders CSV', downloads, 'CSV Files (*.csv);;All Files (*)')
-        if path:
-            self.orders_edit.setText(path)
+        paths, _ = QtWidgets.QFileDialog.getOpenFileNames(
+            self,
+            'Select Orders CSV files',
+            downloads,
+            'CSV Files (*.csv);;All Files (*)'
+        )
+        if paths:
+            self.orders_edit.setText('; '.join(paths))
+
 
     def browse_sku_map(self):
         path, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Select SKU Mapping CSV', os.path.dirname(DEFAULT_SKU_MAP_PATH), 'CSV Files (*.csv);;All Files (*)')
@@ -384,7 +396,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.log.append(f"[{ts}] {message}")
 
     def generate_report(self):
-        orders_path = self.orders_edit.text().strip()
+        # orders_path = self.orders_edit.text().strip()
+        orders_paths = [p.strip() for p in self.orders_edit.text().split(';') if p.strip()]
         sku_map_path = self.sku_edit.text().strip()
         output_path = default_output_path()
 

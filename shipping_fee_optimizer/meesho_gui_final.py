@@ -9,7 +9,7 @@ PyQt5 GUI wrapper for:
 
 Usage:
   pip install PyQt5 pillow requests
-  python me esho_gui.py
+  python meesho_gui.py
 """
 
 import sys
@@ -20,7 +20,6 @@ import tempfile
 import random
 import colorsys
 import json
-import threading
 from pathlib import Path
 from typing import Tuple, Dict, Any, Optional
 
@@ -29,9 +28,9 @@ from PIL import Image, ImageOps
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 # ---------------------------
 # Default API endpoints/config
-# (You can change these constants if endpoints change)
 # ---------------------------
 IMAGE_UPLOAD_URL = "https://supplier.meesho.com/catalogingapi/api/singleCatalogUpload/uploadSingleCatalogImages"
 FETCH_DUP_PID_URL = "https://supplier.meesho.com/catalogingapi/api/priceRecommendation/fetchDuplicatePid"
@@ -39,13 +38,14 @@ FEE_URL = "https://supplier.meesho.com/catalogingapi/api/singleCatalogUpload/get
 # REFERER_PAGE = "https://supplier.meesho.com/panel/v3/new/cataloging/bwqsg/catalogs/single/add"
 REFERER_PAGE = "https://supplier.meesho.com/panel/v3/new/cataloging/zmkwe/catalogs/single/add"
 
+
 COMMON_HEADERS_TEMPLATE = {
     "accept": "application/json, text/plain, */*",
     "accept-language": "en-GB,en;q=0.9",
     "browser-id": "NnAgKyAyMnQgKyAxejQxNDAxejQxNDBv",
     "client-package-version": "1.0.1",
     "client-type": "d-web",
-    "identifier": "bwqsg",
+    "identifier": "zmkwe",
     "origin": "https://supplier.meesho.com",
     "priority": "u=1, i",
     "referer": REFERER_PAGE,
@@ -56,9 +56,10 @@ COMMON_HEADERS_TEMPLATE = {
     "sec-fetch-mode": "cors",
     "sec-fetch-site": "same-origin",
     "sec-gpc": "1",
-    "supplier-id": "2989863",
     "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
 }
+
+#   "supplier-id": "3274498",
 
 # ---------------------------
 # Network / processing helpers
@@ -258,8 +259,6 @@ class Worker(QtCore.QRunnable):
         out_dir = Path(conf["output_dir"])
         out_dir.mkdir(parents=True, exist_ok=True)
 
-
-
         # generate images
         src = Image.open(conf["input_image"]).convert("RGB")
         colors = generate_hsl_colors(conf["num_images"]) if conf["color_mode"] == "hsl" else generate_random_colors(conf["num_images"])
@@ -281,7 +280,23 @@ class Worker(QtCore.QRunnable):
         session = requests.Session()
         session.cookies.update(parse_cookie_string(conf["cookie_string"]))
         headers = dict(COMMON_HEADERS_TEMPLATE)  # base headers
+        
+        # Try to get supplier-id automatically from cookie (safer)
+        cookie_supplier = (
+            session.cookies.get("supplier_id")
+            or session.cookies.get("supplier-id")
+        )
+        if cookie_supplier:
+            headers["supplier-id"] = str(cookie_supplier)
+        else:
+            # fallback to the value from UI if cookie doesn't have it
+            headers["supplier-id"] = str(conf["supplier_id"])
+
         session.headers.update(headers)
+
+
+        # headers["supplier-id"] = str(conf["supplier_id"])  # <- from UI
+        # session.headers.update(headers)
 
         # open csv for this run
         run_ts = int(time.time() * 1000)
@@ -424,12 +439,34 @@ class MainWindow(QtWidgets.QMainWindow):
         form.addWidget(btn_browse, 0, 2)
         btn_browse.clicked.connect(self.browse_image)
 
-        # Cookie string
-        form.addWidget(QtWidgets.QLabel("COOKIE_STRING (paste entire cookie header):"), 1, 0, 1, 3)
+        # COOKIE + SSCAT + Supplier inputs (single row)
+        cookie_label = QtWidgets.QLabel("COOKIE_STRING (paste entire cookie header):")
+        layout.addWidget(cookie_label)
+
+        cookie_row = QtWidgets.QHBoxLayout()
+        layout.addLayout(cookie_row)
+
+        # left: cookie box (shorter height)
         self.te_cookie = QtWidgets.QPlainTextEdit()
         self.te_cookie.setPlaceholderText("cookie1=val; cookie2=val; ...")
-        self.te_cookie.setMaximumHeight(100)
-        layout.addWidget(self.te_cookie)
+        self.te_cookie.setMaximumHeight(60)   # shorter
+        cookie_row.addWidget(self.te_cookie, 3)
+
+        # right: SSCAT ID and Supplier ID
+        id_form = QtWidgets.QFormLayout()
+
+        self.le_sscat_id = QtWidgets.QLineEdit()
+        self.le_sscat_id.setValidator(QtGui.QIntValidator(1, 10**9, self))
+        self.le_sscat_id.setText("10285")   # default
+
+        self.le_supplier_id = QtWidgets.QLineEdit()
+        self.le_supplier_id.setValidator(QtGui.QIntValidator(1, 10**9, self))
+        self.le_supplier_id.setText("2989863")  # default
+
+        id_form.addRow("SSCAT ID:", self.le_sscat_id)
+        id_form.addRow("Supplier ID:", self.le_supplier_id)
+
+        cookie_row.addLayout(id_form, 1)
 
         # Border thickness + num images + output dir
         form2 = QtWidgets.QHBoxLayout()
@@ -453,7 +490,6 @@ class MainWindow(QtWidgets.QMainWindow):
         downloads_dir = os.path.expanduser("~/Downloads")
         default_out = str(Path(downloads_dir, "generated_border").resolve())
         self.le_outdir = QtWidgets.QLineEdit(default_out)
-        # self.le_outdir = QtWidgets.QLineEdit(str(Path("output/border_images").resolve()))
         Path(default_out).parent.mkdir(parents=True, exist_ok=True)
         form2.addWidget(self.le_outdir)
         btn_out = QtWidgets.QPushButton("Select")
@@ -489,11 +525,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pool = QtCore.QThreadPool.globalInstance()
         self.worker_obj = None
 
-    # def browse_image(self):
-    #     f, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Select source image", ".", "Images (*.png *.jpg *.jpeg *.webp *.bmp)")
-    #     if f:
-    #         self.le_image.setText(f)
-
     def browse_image(self):
         start_dir = os.path.expanduser("~/Downloads")
         f, _ = QtWidgets.QFileDialog.getOpenFileName(
@@ -504,7 +535,6 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         if f:
             self.le_image.setText(f)
-
 
     def browse_outdir(self):
         d = QtWidgets.QFileDialog.getExistingDirectory(self, "Select output directory", ".")
@@ -521,11 +551,24 @@ class MainWindow(QtWidgets.QMainWindow):
         # validate inputs
         input_image = self.le_image.text().strip()
         cookie = self.te_cookie.toPlainText().strip()
+        sscat_id_text = self.le_sscat_id.text().strip()
+        supplier_id_text = self.le_supplier_id.text().strip()
+
         if not input_image or not Path(input_image).exists():
             QtWidgets.QMessageBox.warning(self, "Missing input image", "Please select a valid source image file.")
             return
         if not cookie:
             QtWidgets.QMessageBox.warning(self, "Missing COOKIE_STRING", "Please paste your COOKIE_STRING.")
+            return
+        if not sscat_id_text or not supplier_id_text:
+            QtWidgets.QMessageBox.warning(self, "Missing IDs", "Please enter both SSCAT ID and Supplier ID.")
+            return
+
+        try:
+            sscat_id = int(sscat_id_text)
+            supplier_id = int(supplier_id_text)
+        except ValueError:
+            QtWidgets.QMessageBox.warning(self, "Invalid IDs", "SSCAT ID and Supplier ID must be numbers.")
             return
 
         outdir = Path(self.le_outdir.text()).expanduser().resolve()
@@ -539,14 +582,25 @@ class MainWindow(QtWidgets.QMainWindow):
             "color_mode": "hsl",
             "output_dir": str(outdir),
             "cookie_string": cookie,
+            "sscat_id": sscat_id,
+            "supplier_id": supplier_id,
             "cdn_tries": 8,
             "cdn_delay": 1.0,
             "fetch_dup_retries": 2,
             "fetch_dup_delay": 1.5,
             "fee_retries": 6,
             "fee_delay": 1.0,
-            "fetch_dup_base": {"is_old_image_match_enabled": True, "sscat_id": 13864},
-            "fee_base": {"sscat_id": 13864, "gst_percentage": 5, "price": 100, "supplier_id": 2989863, "gst_type": "GSTIN"},
+            "fetch_dup_base": {
+                "is_old_image_match_enabled": True,
+                "sscat_id": sscat_id
+            },
+            "fee_base": {
+                "sscat_id": sscat_id,
+                "gst_percentage": 5,
+                "price": 100,
+                "supplier_id": supplier_id,
+                "gst_type": "GSTIN",
+            },
         }
 
         # UI state
